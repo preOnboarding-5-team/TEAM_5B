@@ -16,7 +16,7 @@ function DesktopSearchInput() {
       <button type="button" className={styles.button}>
         검색
       </button>
-      <SearchList />
+      {/* <SearchList /> */}
     </div>
   );
 }
