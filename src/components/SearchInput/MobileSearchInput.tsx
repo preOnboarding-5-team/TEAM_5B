@@ -1,4 +1,6 @@
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+
+import { ChangeEvent,useCallback, useEffect, useRef, useState } from 'react';
+
 import { useQuery } from 'react-query';
 
 import { LeftArrowIcon, MagnifierIcon } from 'assets';
@@ -12,6 +14,11 @@ import styles from './search-input.module.scss';
 
 function MobileSearchInput() {
   const [isSearching, setIsSearching] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current !== null) inputRef.current.focus();
+  });
 
   const dispatch = useAppDispatch();
   const searchString = useAppSelector(
@@ -94,6 +101,7 @@ function MobileSearchInput() {
             placeholder="질환명을 입력해 주세요."
             value={searchString}
             onChange={onChange}
+            ref={inputRef}
           />
           <MagnifierIcon />
         </div>
