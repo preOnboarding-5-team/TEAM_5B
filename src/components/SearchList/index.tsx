@@ -1,10 +1,15 @@
 import { MagnifierIcon } from 'assets';
 import { useEffect, useRef, useState } from 'react';
+
+import { IItem } from 'types/search.d';
 import styles from './search-list.module.scss';
 
-function SearchList() {
+interface Props {
+  data: IItem[];
+}
+
+function SearchList({ data }: Props) {
   // 검색 결과 예시
-  const example = ['간암', '췌장암', '폐암', '대장암'];
 
   const [isMobile, setIsMobile] = useState<boolean>(true);
 
@@ -23,11 +28,12 @@ function SearchList() {
   return (
     <ul ref={containerRef} className={containerType}>
       <li className={styles.label}>추천 검색어</li>
-      {example.map((item, idx) => {
+
+      {data.map((item: IItem, idx: number) => {
         const key = `$search-list-key-${idx}`;
         return (
           <li key={key} className={styles.item}>
-            <MagnifierIcon /> <span className={styles.name}>{item}</span>
+            <MagnifierIcon /> <span className={styles.name}>{item.sickNm}</span>
           </li>
         );
       })}

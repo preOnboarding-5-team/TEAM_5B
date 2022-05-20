@@ -1,12 +1,29 @@
-import { useState } from 'react';
+import { SetStateAction, useCallback, useState } from 'react';
 
 import { LeftArrowIcon, MagnifierIcon } from 'assets';
 
 import SearchList from 'components/SearchList';
+import { useQueryDebounce } from 'hooks';
+import { useQuery } from 'react-query';
+import { fetcher } from 'utils';
+
 import styles from './search-input.module.scss';
 
 function MobileSearchInput() {
   const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState<string>('');
+  const searchInput = useQueryDebounce(searchValue, 500);
+
+  const { data } = useQuery(['data', searchInput], () => fetcher(searchInput), {
+    enabled: !!searchInput,
+  });
+
+  const onChange = useCallback(
+    (e: { target: { value: SetStateAction<string> } }) =>
+      setSearchValue(e.target.value),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [searchValue]
+  );
 
   const toggleSearchInput = () => {
     setIsSearching((prev) => !prev);
@@ -35,10 +52,11 @@ function MobileSearchInput() {
             type="search"
             className={styles.input}
             placeholder="질환명을 입력해 주세요."
+            onChange={onChange}
           />
           <MagnifierIcon />
         </div>
-        <SearchList />
+        {data ? <SearchList data={data} /> : <p>검색어 없음</p>}
       </div>
     </>
   );
