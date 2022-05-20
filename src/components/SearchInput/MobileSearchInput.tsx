@@ -1,4 +1,4 @@
-import { SetStateAction, useCallback, useState } from 'react';
+import { SetStateAction, useCallback, useEffect, useState } from 'react';
 
 import { LeftArrowIcon, MagnifierIcon } from 'assets';
 
@@ -12,6 +12,7 @@ import styles from './search-input.module.scss';
 function MobileSearchInput() {
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>('');
+  const [cursor, setCursor] = useState(-2);
   const searchInput = useQueryDebounce(searchValue, 500);
 
   const { data } = useQuery(['data', searchInput], () => fetcher(searchInput), {
@@ -24,6 +25,35 @@ function MobileSearchInput() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [searchValue]
   );
+
+  const keyboardNavigation = useCallback(
+    (e: KeyboardEvent) => {
+      if (data === undefined) return;
+
+      if (e.key === 'ArrowDown' && isSearching) {
+        setCursor((prev) => (prev < data.length - 1 ? prev + 1 : prev));
+      }
+      if (e.key === 'ArrowUp' && isSearching) {
+        setCursor((prev) => (prev > 0 ? prev - 1 : 0));
+      }
+      if (e.key === 'Enter' && cursor > 0) {
+        setCursor(-1);
+        setIsSearching(false);
+      }
+    },
+    [data, isSearching, setIsSearching, setCursor, cursor]
+  );
+
+  useEffect(() => {
+    window.addEventListener('keydown', keyboardNavigation);
+    return () => {
+      window.removeEventListener('keydown', keyboardNavigation);
+    };
+  }, [keyboardNavigation]);
+
+  const mouseDown = (idx: number) => {
+    setCursor(idx);
+  };
 
   const toggleSearchInput = () => {
     setIsSearching((prev) => !prev);
@@ -56,7 +86,11 @@ function MobileSearchInput() {
           />
           <MagnifierIcon />
         </div>
-        {data ? <SearchList data={data} /> : <p>검색어 없음</p>}
+        {data ? (
+          <SearchList data={data} cursor={cursor} mouseDown={mouseDown} />
+        ) : (
+          <p>검색어 없음</p>
+        )}
       </div>
     </>
   );

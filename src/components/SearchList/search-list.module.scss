@@ -16,14 +16,19 @@
 
   .item {
     display: flex;
+    width: 100%;
     align-items: center;
-    padding: 8px 0;
+    padding: 8px 5px;
     cursor: pointer;
 
     .name {
       margin-left: 12px;
       font-size: 1rem;
       line-height: 1.6;
+    }
+
+    &.focused {
+      background-color: #edeef5;
     }
   }
 }
@@ -60,6 +65,10 @@
       margin-left: 12px;
       font-size: 1rem;
       line-height: 1.6;
+    }
+
+    &.focused {
+      background-color: #edeef5;
     }
   }
 }
