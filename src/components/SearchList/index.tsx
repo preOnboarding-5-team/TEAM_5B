@@ -5,9 +5,14 @@ import { useAppSelector } from 'hooks';
 
 import { IItem } from 'types/search.d';
 import Match from './Match';
+import cx from 'classnames';
 import styles from './search-list.module.scss';
 
 function SearchList() {
+<<<<<<< HEAD
+=======
+  // 검색 결과 예시
+>>>>>>> e9b4baa (Add keybordNavigation in mobileSearch)
   const [isMobile, setIsMobile] = useState<boolean>(true);
 
   const containerRef = useRef<HTMLUListElement>(null);
@@ -37,8 +42,17 @@ function SearchList() {
         const key = `${item.sickCd}-${idx}`;
         return (
           <li key={key} className={styles.item}>
+<<<<<<< HEAD
             <MagnifierIcon />
             <span className={styles.name}>
+=======
+            <MagnifierIcon />{' '}
+            <span
+              className={cx(styles.item, {
+                [styles.focused]: cursor === idx,
+              })}
+            >
+>>>>>>> e9b4baa (Add keybordNavigation in mobileSearch)
               <Match sickNm={item.sickNm} />
             </span>
           </li>

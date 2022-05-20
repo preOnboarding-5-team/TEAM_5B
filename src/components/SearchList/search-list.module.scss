@@ -20,8 +20,9 @@
 
   .item {
     display: flex;
+    width: 100%;
     align-items: center;
-    padding: 8px 0;
+    padding: 8px 5px;
     cursor: pointer;
 
     .name {
@@ -33,6 +34,10 @@
         font-weight: bold;
         background-color: colors.$white;
       }
+    }
+
+    &.focused {
+      background-color: #edeef5;
     }
   }
 }
@@ -74,6 +79,10 @@
         font-weight: bold;
         background-color: colors.$white;
       }
+    }
+
+    &.focused {
+      background-color: #edeef5;
     }
   }
 }
