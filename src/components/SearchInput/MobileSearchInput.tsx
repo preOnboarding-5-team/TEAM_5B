@@ -1,22 +1,44 @@
-import { SetStateAction, useCallback, useState } from 'react';
-
 import { LeftArrowIcon, MagnifierIcon } from 'assets';
+import { SetStateAction, useCallback, useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
+
+import { useQueryDebounce, useAppSelector, useAppDispatch } from 'hooks';
 
 import SearchList from 'components/SearchList';
-import { useQueryDebounce } from 'hooks';
-import { useQuery } from 'react-query';
 import { fetcher } from 'utils';
-
+import { setSearchString } from 'store/searchString';
+import { setfilteredList } from 'store/filteredList';
 import styles from './search-input.module.scss';
 
 function MobileSearchInput() {
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>('');
-  const searchInput = useQueryDebounce(searchValue, 500);
+  const dispatch = useAppDispatch();
+  const searchString = useAppSelector(
+    (state) => state.searchString.searchString
+  );
+  const searchInput = useQueryDebounce(searchString, 500);
 
   const { data } = useQuery(['data', searchInput], () => fetcher(searchInput), {
     enabled: !!searchInput,
   });
+
+  useEffect(() => {
+    if (searchValue.length === 0) {
+      dispatch(setfilteredList([]));
+    }
+    dispatch(setSearchString(searchValue));
+  }, [searchValue, dispatch]);
+
+  useEffect(() => {
+    if (data) {
+      if (Array.isArray(data)) {
+        dispatch(setfilteredList(data));
+      } else {
+        dispatch(setfilteredList([data]));
+      }
+    }
+  }, [data, dispatch]);
 
   const onChange = useCallback(
     (e: { target: { value: SetStateAction<string> } }) =>
@@ -56,7 +78,7 @@ function MobileSearchInput() {
           />
           <MagnifierIcon />
         </div>
-        {data ? <SearchList data={data} /> : <p>검색어 없음</p>}
+        {data && searchString ? <SearchList /> : <p>검색어 없음</p>}
       </div>
     </>
   );
