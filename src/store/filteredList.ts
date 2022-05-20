@@ -1,37 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IItem } from 'types/search.d';
 
 export interface IFilteredListState {
-  item: {
-    sickCd: string;
-    sickNm: string;
-  }[];
+  item: IItem[];
 }
 
 const initialState = {
-  item: [] as {
-    sickCd: string;
-    sickNm: string;
-  }[],
+  item: [] as IItem[],
 };
 
 const filteredListSlice = createSlice({
   name: 'filteredList',
   initialState,
   reducers: {
-    setfilteredList: (
+    setFilteredList: (
       state: IFilteredListState,
-      action: PayloadAction<
-        {
-          sickCd: string;
-          sickNm: string;
-        }[]
-      >
+      action: PayloadAction<IItem[]>
     ) => {
       state.item = action.payload;
     },
   },
 });
 
-export const { setfilteredList } = filteredListSlice.actions;
+export const { setFilteredList } = filteredListSlice.actions;
 
 export default filteredListSlice.reducer;

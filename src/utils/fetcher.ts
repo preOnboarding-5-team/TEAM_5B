@@ -12,7 +12,6 @@ interface IGetDissRes {
   };
 }
 
-// ivBH7O1ZQm7WeAqNdvlCx6Qzf62xqkBMD16Unv+hS0GhjqlaxfhF29L5eyrBM9YedmTkgiC6V/o6aaZSrY5cuQ==
 const fetcher = async (searchText: string) => {
   // 배포시 수정 필요 (http://apis.data.go.kr/)
   try {
