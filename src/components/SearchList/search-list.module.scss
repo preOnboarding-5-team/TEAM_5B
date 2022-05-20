@@ -39,6 +39,10 @@
     &.focused {
       background-color: #edeef5;
     }
+
+    &.focused {
+      background-color: #edeef5;
+    }
   }
 }
 
@@ -79,6 +83,10 @@
         font-weight: bold;
         background-color: colors.$white;
       }
+    }
+
+    &.focused {
+      background-color: #edeef5;
     }
 
     &.focused {
