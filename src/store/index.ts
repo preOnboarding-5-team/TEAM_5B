@@ -1,7 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
-const rootReducer = combineReducers({});
+import filteredList from './filteredList';
+import searchString from './searchString';
+
+const rootReducer = combineReducers({ searchString, filteredList });
 
 const store = configureStore({
   reducer: rootReducer,

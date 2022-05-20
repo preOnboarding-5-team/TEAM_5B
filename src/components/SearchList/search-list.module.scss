@@ -24,6 +24,11 @@
       margin-left: 12px;
       font-size: 1rem;
       line-height: 1.6;
+
+      mark {
+        font-weight: bold;
+        background-color: colors.$white;
+      }
     }
   }
 }
@@ -60,6 +65,11 @@
       margin-left: 12px;
       font-size: 1rem;
       line-height: 1.6;
+
+      mark {
+        font-weight: bold;
+        background-color: colors.$white;
+      }
     }
   }
 }

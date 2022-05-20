@@ -1,5 +1,5 @@
 import { MagnifierIcon } from 'assets';
-import SearchList from 'components/SearchList';
+// import SearchList from 'components/SearchList';
 import styles from './search-input.module.scss';
 
 function DesktopSearchInput() {
