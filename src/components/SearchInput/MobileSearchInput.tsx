@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 
 import { LeftArrowIcon, MagnifierIcon } from 'assets';
@@ -6,7 +6,7 @@ import SearchList from 'components/SearchList';
 
 import { useQueryDebounce, useAppSelector, useAppDispatch } from 'hooks';
 import { fetcher } from 'utils';
-import { setSearchString, setFilteredList } from 'store';
+import { setSearchString, setFilteredList, setControlCutsor } from 'store';
 
 import styles from './search-input.module.scss';
 
@@ -17,6 +17,7 @@ function MobileSearchInput() {
   const searchString = useAppSelector(
     (state) => state.searchString.searchString
   );
+  const cursor = useAppSelector((state) => state.controlCursor.cursor);
 
   const searchInput = useQueryDebounce(searchString, 500);
 
@@ -32,6 +33,30 @@ function MobileSearchInput() {
     dispatch(setSearchString(e.target.value));
 
   const toggleSearchInput = () => setIsSearching((prev) => !prev);
+
+  const keyboardNavigation = useCallback(
+    (e: KeyboardEvent) => {
+      if (data === undefined) return;
+      if (e.key === 'ArrowDown' && isSearching && cursor < data.length - 1) {
+        dispatch(setControlCutsor({ cursor: cursor + 1 }));
+      }
+      if (e.key === 'ArrowUp' && isSearching && cursor > 0) {
+        dispatch(setControlCutsor({ cursor: cursor - 1 }));
+      }
+      if (e.key === 'Enter') {
+        dispatch(setControlCutsor({ cursor: -1 }));
+        setIsSearching(false);
+      }
+    },
+    [data, cursor, dispatch, isSearching, setIsSearching]
+  );
+
+  useEffect(() => {
+    window.addEventListener('keydown', keyboardNavigation);
+    return () => {
+      window.removeEventListener('keydown', keyboardNavigation);
+    };
+  }, [keyboardNavigation]);
 
   useEffect(() => {
     if (data) {
