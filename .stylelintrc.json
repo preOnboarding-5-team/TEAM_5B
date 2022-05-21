@@ -4,5 +4,11 @@
     "stylelint-config-recess-order",
     "stylelint-config-prettier-scss"
   ],
-  "plugins": ["stylelint-declaration-strict-value"]
+  "plugins": ["stylelint-declaration-strict-value"],
+  "rules": {
+    "scale-unlimited/declaration-strict-value": [
+      ["background-color", "color"],
+      { "ignoreValues": "transparent" }
+    ]
+  }
 }

@@ -1,58 +1,112 @@
-import { useEffect, useRef, useState } from 'react';
+import {
+  KeyboardEvent,
+  MouseEvent,
+  RefObject,
+  useEffect,
+  useState,
+} from 'react';
+import { useIsFetching } from 'react-query';
 
 import { MagnifierIcon } from 'assets';
-import { useAppDispatch, useAppSelector } from 'hooks';
-import cx from 'classnames';
+import { useAppDispatch, useAppSelector, useQueryDebounce } from 'hooks';
+import { setSearchString } from 'store';
 
-import { setControlCutsor } from 'store';
 import { IItem } from 'types/search.d';
+
 import Match from './Match';
+
 import styles from './search-list.module.scss';
 
-function SearchList() {
-  // 검색 결과 예시
+type TSearchListProps = {
+  listRef: RefObject<HTMLUListElement>;
+};
+
+function SearchList({ listRef }: TSearchListProps) {
   const [isMobile, setIsMobile] = useState<boolean>(true);
 
-  const containerRef = useRef<HTMLUListElement>(null);
-
-  const filteredList = useAppSelector((state) => state.filteredList.item);
-
-  const cursor = useAppSelector((state) => state.controlCursor.cursor);
-
   const dispatch = useAppDispatch();
+  const filteredList = useAppSelector((state) => state.filteredList.item);
+  const searchString = useAppSelector(
+    (state) => state.searchString.searchString
+  );
 
-  useEffect(() => {
-    if (containerRef.current?.parentElement?.dataset.id === 'desktop') {
-      setIsMobile(false);
-    }
-  }, []);
+  const searchInput = useQueryDebounce(searchString, 500);
+
+  const isFetching = useIsFetching(['data', searchInput]);
 
   const containerType = isMobile
     ? styles['mobile-list-container']
     : styles['desktop-list-container'];
 
-  const noData = () => {
+  const whileSearching = () => {
     if (filteredList.length !== 0) return null;
-    return <span className={styles['no-data']}>검색어 없음</span>;
+    if (isFetching) {
+      return <li className={styles['while-searching']}>검색 중..</li>;
+    }
+    return <li className={styles['while-searching']}>검색어 없음</li>;
   };
 
-  const mouseDown = (idx: number) => {
-    dispatch(setControlCutsor({ cursor: idx }));
+  const isListVisible = searchString.length !== 0 ? 'flex' : 'none';
+
+  const onClick = (e: MouseEvent<HTMLLIElement>) => {
+    const target = e.currentTarget.dataset.name as string;
+    dispatch(setSearchString(target));
   };
+
+  const onKeyDown = (e: KeyboardEvent<HTMLLIElement>) => {
+    e.preventDefault();
+    if (e.key === 'ArrowDown') {
+      if (e.currentTarget.nextElementSibling) {
+        const nextTarget = e.currentTarget.nextElementSibling as HTMLLIElement;
+        nextTarget.focus();
+      }
+    }
+    if (e.key === 'ArrowUp') {
+      if (e.currentTarget.previousElementSibling) {
+        const prevTarget = e.currentTarget
+          .previousElementSibling as HTMLLIElement;
+        prevTarget.focus();
+      }
+    }
+    if (e.key === 'Enter') {
+      const target = e.currentTarget.dataset.name as string;
+      dispatch(setSearchString(target));
+    }
+  };
+
+  const onMouseEnter = (e: MouseEvent<HTMLLIElement>) => {
+    if (e.currentTarget) {
+      e.currentTarget.focus();
+    }
+  };
+
+  useEffect(() => {
+    if (listRef.current?.parentElement?.dataset.id === 'desktop') {
+      setIsMobile(false);
+    }
+  }, [listRef]);
 
   return (
-    <ul ref={containerRef} className={containerType}>
-      <li className={styles.label}>추천 검색어</li>
-      {noData()}
+    <ul
+      role="menu"
+      tabIndex={-1}
+      ref={listRef}
+      className={containerType}
+      style={{ display: isListVisible }}
+    >
+      {whileSearching()}
       {filteredList.map((item: IItem, idx: number) => {
         const key = `${item.sickCd}-${idx}`;
         return (
           <li
             key={key}
-            className={cx(styles.item, {
-              [styles.focused]: cursor === idx,
-            })}
-            onMouseMove={() => mouseDown(idx)}
+            role="menuitem"
+            onClick={onClick}
+            onKeyDown={onKeyDown}
+            onMouseEnter={onMouseEnter}
+            tabIndex={0}
+            data-name={item.sickNm}
+            className={styles.item}
           >
             <MagnifierIcon />
             <span className={styles.name}>

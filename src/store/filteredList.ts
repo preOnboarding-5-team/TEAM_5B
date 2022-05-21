@@ -1,8 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IItem, IFilteredListState } from 'types/search.d';
+import { IItem } from 'types/search.d';
 
-const initialState = {
-  item: [] as IItem[],
+interface IFilteredListState {
+  item: IItem[];
+}
+
+const initialState: IFilteredListState = {
+  item: [],
 };
 
 const filteredListSlice = createSlice({

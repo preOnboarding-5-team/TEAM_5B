@@ -11,7 +11,6 @@ import 'styles/index.scss';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      suspense: true,
       cacheTime: Infinity,
       staleTime: Infinity,
     },
