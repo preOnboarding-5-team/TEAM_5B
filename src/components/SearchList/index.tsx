@@ -52,7 +52,7 @@ function SearchList() {
             className={cx(styles.item, {
               [styles.focused]: cursor === idx,
             })}
-            onMouseMove={() => mouseDown(idx)}
+            onMouseEnter={() => mouseDown(idx)}
           >
             <MagnifierIcon />
             <span className={styles.name}>
