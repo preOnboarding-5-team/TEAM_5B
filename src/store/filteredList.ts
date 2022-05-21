@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IItem } from 'types/search.d';
 
 interface IFilteredListState {
-  item: IItem[];
+  list: IItem[];
 }
 
 const initialState: IFilteredListState = {
-  item: [],
+  list: [],
 };
 
 const filteredListSlice = createSlice({
@@ -17,7 +17,7 @@ const filteredListSlice = createSlice({
       state: IFilteredListState,
       action: PayloadAction<IItem[]>
     ) => {
-      state.item = action.payload;
+      state.list = action.payload;
     },
   },
 });

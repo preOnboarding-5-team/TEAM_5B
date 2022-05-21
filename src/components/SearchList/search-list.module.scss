@@ -19,7 +19,8 @@
     padding: 8px 5px;
     cursor: pointer;
 
-    &:focus {
+    &:focus,
+    &:hover {
       background-color: colors.$border-color;
     }
 

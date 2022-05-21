@@ -2,7 +2,7 @@ import { ChangeEvent, KeyboardEvent, useRef } from 'react';
 
 import { MagnifierIcon } from 'assets';
 import { useAppSelector, useAppDispatch } from 'hooks';
-import { setSearchString } from 'store';
+import { setFilteredList, setSearchString } from 'store';
 
 import SearchList from 'components/SearchList';
 
@@ -17,7 +17,10 @@ function DesktopSearchInput() {
   );
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSearchString(e.target.value));
+    dispatch(setSearchString(e.target.value.trimStart()));
+    if (e.target.value.length === 0) {
+      dispatch(setFilteredList([]));
+    }
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {

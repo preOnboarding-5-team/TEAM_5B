@@ -10,10 +10,11 @@ const fetcher = async (searchText: string) => {
       {
         params: {
           _type: 'json',
+          ServiceKey: process.env.REACT_APP_GET_DISS_API_KEY,
+          numOfRows: 2000,
           sickType: 1,
           medTp: 2,
           diseaseType: 'SICK_NM',
-          ServiceKey: process.env.REACT_APP_GET_DISS_API_KEY,
           searchText,
         },
       }
