@@ -25,7 +25,7 @@ function SearchList({ listRef }: TSearchListProps) {
   const [isMobile, setIsMobile] = useState<boolean>(true);
 
   const dispatch = useAppDispatch();
-  const filteredList = useAppSelector((state) => state.filteredList.item);
+  const filteredList = useAppSelector((state) => state.filteredList.list);
   const searchString = useAppSelector(
     (state) => state.searchString.searchString
   );
@@ -74,12 +74,6 @@ function SearchList({ listRef }: TSearchListProps) {
     }
   };
 
-  const onMouseEnter = (e: MouseEvent<HTMLLIElement>) => {
-    if (e.currentTarget) {
-      e.currentTarget.focus();
-    }
-  };
-
   useEffect(() => {
     if (listRef.current?.parentElement?.dataset.id === 'desktop') {
       setIsMobile(false);
@@ -103,7 +97,6 @@ function SearchList({ listRef }: TSearchListProps) {
             role="menuitem"
             onClick={onClick}
             onKeyDown={onKeyDown}
-            onMouseEnter={onMouseEnter}
             tabIndex={0}
             data-name={item.sickNm}
             className={styles.item}
