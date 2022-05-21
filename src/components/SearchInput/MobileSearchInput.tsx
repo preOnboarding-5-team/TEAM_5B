@@ -61,7 +61,6 @@ function MobileSearchInput() {
             type="search"
             className={styles.input}
             placeholder="질환명을 입력해 주세요."
-            value={searchString}
             onChange={onChange}
             onKeyDown={onKeyDown}
           />
