@@ -1,16 +1,6 @@
 import axios from 'axios';
 
-interface IGetDissRes {
-  response: {
-    header: { resultCode: string; resultMsg: string };
-    body: {
-      items: { item: Array<{ sickCd: string; sickNm: string }> };
-      numOfRows: number;
-      pageNo: number;
-      totalCount: number;
-    };
-  };
-}
+import { IGetDissRes } from 'types/search.d';
 
 const fetcher = async (searchText: string) => {
   // 배포시 수정 필요 (http://apis.data.go.kr/)

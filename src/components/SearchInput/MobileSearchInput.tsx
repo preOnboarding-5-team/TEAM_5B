@@ -1,80 +1,46 @@
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
+import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 
 import { LeftArrowIcon, MagnifierIcon } from 'assets';
-import SearchList from 'components/SearchList';
+import { useAppSelector, useAppDispatch } from 'hooks';
+import { setSearchString } from 'store';
 
-import { useQueryDebounce, useAppSelector, useAppDispatch } from 'hooks';
-import { fetcher } from 'utils';
-import { setSearchString, setFilteredList, setControlCutsor } from 'store';
+import SearchList from 'components/SearchList';
 
 import styles from './search-input.module.scss';
 
 function MobileSearchInput() {
   const [isSearching, setIsSearching] = useState<boolean>(false);
 
+  const listRef = useRef<HTMLUListElement>(null);
+
   const dispatch = useAppDispatch();
   const searchString = useAppSelector(
     (state) => state.searchString.searchString
   );
-  const cursor = useAppSelector((state) => state.controlCursor.cursor);
-
-  const searchInput = useQueryDebounce(searchString, 500);
-
-  const { data } = useQuery(['data', searchInput], () => fetcher(searchInput), {
-    enabled: !!searchInput,
-  });
 
   const placeholder = searchString.length
     ? searchString
     : '질환명을 입력해 주세요.';
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) =>
-    dispatch(setSearchString(e.target.value));
-
   const toggleSearchInput = () => setIsSearching((prev) => !prev);
 
-  const keyboardNavigation = useCallback(
-    (e: KeyboardEvent) => {
-      if (data === undefined) return;
-      if (e.key === 'ArrowDown' && isSearching && cursor < data.length - 1) {
-        dispatch(setControlCutsor({ cursor: cursor + 1 }));
-      }
-      if (e.key === 'ArrowUp' && isSearching && cursor > 0) {
-        dispatch(setControlCutsor({ cursor: cursor - 1 }));
-      }
-      if (e.key === 'Enter') {
-        dispatch(setControlCutsor({ cursor: -1 }));
-        setIsSearching(false);
-      }
-    },
-    [data, cursor, dispatch, isSearching, setIsSearching]
-  );
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearchString(e.target.value));
+  };
 
-  useEffect(() => {
-    window.addEventListener('keydown', keyboardNavigation);
-    return () => {
-      window.removeEventListener('keydown', keyboardNavigation);
-    };
-  }, [keyboardNavigation]);
-
-  useEffect(() => {
-    if (data) {
-      if (Array.isArray(data)) {
-        dispatch(setFilteredList(data));
-      } else {
-        dispatch(setFilteredList([data]));
-      }
-    } else {
-      dispatch(setFilteredList([]));
+  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const firstListItem = listRef.current?.firstElementChild as HTMLLIElement;
+      firstListItem.focus();
     }
-  }, [data, dispatch]);
+  };
 
   return (
     <>
       <div
         role="button"
-        tabIndex={-1}
+        tabIndex={0}
         className={styles['mobile-search-input']}
         onClick={toggleSearchInput}
       >
@@ -93,10 +59,11 @@ function MobileSearchInput() {
             className={styles.input}
             placeholder="질환명을 입력해 주세요."
             onChange={onChange}
+            onKeyDown={onKeyDown}
           />
           <MagnifierIcon />
         </div>
-        <SearchList />
+        <SearchList listRef={listRef} />
       </div>
     </>
   );

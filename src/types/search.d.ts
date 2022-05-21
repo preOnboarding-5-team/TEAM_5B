@@ -3,15 +3,13 @@ export interface IItem {
   sickNm: string;
 }
 
-export interface IFilteredListState {
-  item: IItem[];
-}
-
-export interface IGetDissRes {
+interface IGetDissRes {
   response: {
     header: { resultCode: string; resultMsg: string };
     body: {
-      items: { item: IItem[] };
+      items: {
+        item: Array<IItem> | IItem;
+      };
       numOfRows: number;
       pageNo: number;
       totalCount: number;
