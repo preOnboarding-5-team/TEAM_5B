@@ -1,5 +1,6 @@
 import { MainLogo } from 'assets';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import cx from 'classnames';
 import DesktopNav from './DesktopNav';
 import MobileNav from './MobileNav';
 
@@ -11,12 +12,18 @@ function Header() {
       <div className={styles.container}>
         <MainLogo className={styles.logo} />
         <nav className={styles['common-nav']}>
-          <Link to="/" className={styles.link}>
+          <NavLink
+            to="/"
+            className={({ isActive }) => cx({ [styles.active]: isActive })}
+          >
             API 통신 검색
-          </Link>
-          <Link to="fuzzystring" className={styles.link}>
+          </NavLink>
+          <NavLink
+            to="/fuzzystring"
+            className={({ isActive }) => cx({ [styles.active]: isActive })}
+          >
             퍼지 문자열 검색
-          </Link>
+          </NavLink>
         </nav>
         <DesktopNav />
         <MobileNav />
