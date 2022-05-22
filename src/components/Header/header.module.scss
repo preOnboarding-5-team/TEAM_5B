@@ -27,10 +27,14 @@
     .common-nav {
       display: flex;
 
-      .link {
+      a {
         width: max-content;
         padding: 4px 8px;
         font-size: 0.9rem;
+
+        &.active {
+          font-weight: 600;
+        }
 
         @include responsive.breakpoint {
           padding: 8px 16px;
