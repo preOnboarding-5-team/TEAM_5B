@@ -8,7 +8,7 @@
   "rules": {
     "scale-unlimited/declaration-strict-value": [
       ["background-color", "color"],
-      { "ignoreValues": "transparent" }
+      { "ignoreValues": ["transparent", "inherit", "initial"] }
     ]
   }
 }

@@ -2,11 +2,11 @@ import { ChangeEvent, KeyboardEvent, useRef } from 'react';
 
 import { MagnifierIcon } from 'assets';
 import { useAppSelector, useAppDispatch } from 'hooks';
-import { setSearchString } from 'store';
+import { setFilteredList, setSearchString } from 'store';
 
-import SearchList from 'components/SearchList';
+import SearchList from 'components/FuzzySearchList';
 
-import styles from './search-input.module.scss';
+import styles from './fuzzy-search-input.module.scss';
 
 function DesktopSearchInput() {
   const listRef = useRef<HTMLUListElement>(null);
@@ -18,6 +18,9 @@ function DesktopSearchInput() {
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchString(e.target.value));
+    if (e.target.value.length === 0) {
+      dispatch(setFilteredList([]));
+    }
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
