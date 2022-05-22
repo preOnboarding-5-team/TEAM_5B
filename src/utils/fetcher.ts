@@ -2,13 +2,11 @@ import axios from 'axios';
 
 import { IGetDissRes } from 'types/search.d';
 
-const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
-
 const fetcher = async (searchText: string) => {
   // 배포시 수정 필요 (http://apis.data.go.kr/)
   try {
     const res = await axios.get<IGetDissRes>(
-      `${PROXY}/B551182/diseaseInfoService/getDissNameCodeList`,
+      `/proxy/B551182/diseaseInfoService/getDissNameCodeList`,
       {
         params: {
           _type: 'json',
