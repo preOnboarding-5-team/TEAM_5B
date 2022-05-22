@@ -2,11 +2,11 @@ import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 
 import { LeftArrowIcon, MagnifierIcon } from 'assets';
 import { useAppSelector, useAppDispatch } from 'hooks';
-import { setSearchString } from 'store';
+import { setFilteredList, setSearchString } from 'store';
 
-import SearchList from 'components/SearchList';
+import SearchList from 'components/FuzzySearchList';
 
-import styles from './search-input.module.scss';
+import styles from './fuzzy-search-input.module.scss';
 
 function MobileSearchInput() {
   const [isSearching, setIsSearching] = useState<boolean>(false);
@@ -26,6 +26,9 @@ function MobileSearchInput() {
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchString(e.target.value));
+    if (e.target.value.length === 0) {
+      dispatch(setFilteredList([]));
+    }
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -38,16 +41,16 @@ function MobileSearchInput() {
 
   return (
     <>
-      <div
-        role="button"
+      <button
+        type="button"
         tabIndex={0}
         className={styles['mobile-search-input']}
         onClick={toggleSearchInput}
       >
         <span>{placeholder}</span>
         <MagnifierIcon />
-      </div>
-      <div
+      </button>
+      <section
         data-id="mobile"
         className={styles['mobile-container']}
         style={isSearching ? { display: 'flex' } : { display: 'none' }}
@@ -65,7 +68,7 @@ function MobileSearchInput() {
           <MagnifierIcon />
         </div>
         <SearchList listRef={listRef} />
-      </div>
+      </section>
     </>
   );
 }

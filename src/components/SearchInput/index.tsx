@@ -35,7 +35,6 @@ function SearchInput() {
   const shouldFetch = useShouldFetch(searchInput, queryList);
 
   const onSuccess = (res: IItem | IItem[]) => {
-    // eslint-disable-next-line no-console
     dispatch(setQueryList(searchInput));
     if (res) {
       if (Array.isArray(res)) {
