@@ -6,7 +6,7 @@ const fetcher = async (searchText: string) => {
   // 배포시 수정 필요 (http://apis.data.go.kr/)
   try {
     const res = await axios.get<IGetDissRes>(
-      `/proxy/B551182/diseaseInfoService/getDissNameCodeList`,
+      `/B551182/diseaseInfoService/getDissNameCodeList`,
       {
         params: {
           _type: 'json',
