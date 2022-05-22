@@ -1,34 +1,24 @@
-import { useEffect } from 'react';
-
-import { useAppSelector } from 'hooks';
-
-import SearchInput from 'components/SearchInput';
-import Footer from 'components/Footer';
-import Header from 'components/Header';
-
 import { SubscriptionImage, SubscriptionImageSm } from 'assets';
 
-import styles from './main.module.scss';
+import Footer from 'components/Footer';
+import FuzzySearchInput from 'components/FuzzySearchInput';
+import Header from 'components/Header';
 
-function Main() {
-  const fetchCount = useAppSelector((state) => state.fetchCount.count);
+import styles from './fuzzy-string.module.scss';
 
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('fetched:', fetchCount, 'times');
-  }, [fetchCount]);
-
+function FuzzyString() {
   return (
     <>
       <Header />
       <main className={styles.main}>
         <section className={styles.search}>
+          <span className={styles.title}>Fuzzy String Matching</span>
           <h1 className={styles.title}>
             국내 모든 임상시험 검색하고
             <br />
             온라인으로 참여하기
           </h1>
-          <SearchInput />
+          <FuzzySearchInput />
         </section>
         <section className={styles.subscription}>
           <div className={styles.content}>
@@ -51,4 +41,4 @@ function Main() {
   );
 }
 
-export default Main;
+export default FuzzyString;

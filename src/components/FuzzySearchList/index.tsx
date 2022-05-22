@@ -5,46 +5,33 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { useIsFetching } from 'react-query';
 
 import { MagnifierIcon } from 'assets';
-import { useAppDispatch, useAppSelector, useQueryDebounce } from 'hooks';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import { setSearchString } from 'store';
 
 import { IItem } from 'types/search.d';
 
 import Match from './Match';
 
-import styles from './search-list.module.scss';
+import styles from './fuzzy-search-list.module.scss';
 
 type TSearchListProps = {
   listRef: RefObject<HTMLUListElement>;
 };
 
-function SearchList({ listRef }: TSearchListProps) {
+function FuzzySearchList({ listRef }: TSearchListProps) {
   const [isMobile, setIsMobile] = useState<boolean>(true);
 
   const dispatch = useAppDispatch();
-  const filteredList = useAppSelector((state) => state.filteredList.item);
+  const filteredList = useAppSelector((state) => state.filteredList.list);
   const searchString = useAppSelector(
     (state) => state.searchString.searchString
   );
 
-  const searchInput = useQueryDebounce(searchString, 500);
-
-  const isFetching = useIsFetching(['data', searchInput]);
-
   const containerType = isMobile
     ? styles['mobile-list-container']
     : styles['desktop-list-container'];
-
-  const whileSearching = () => {
-    if (filteredList.length !== 0) return null;
-    if (isFetching) {
-      return <li className={styles['while-searching']}>검색 중..</li>;
-    }
-    return <li className={styles['while-searching']}>검색어 없음</li>;
-  };
 
   const isListVisible = searchString.length !== 0 ? 'flex' : 'none';
 
@@ -74,12 +61,6 @@ function SearchList({ listRef }: TSearchListProps) {
     }
   };
 
-  const onMouseEnter = (e: MouseEvent<HTMLLIElement>) => {
-    if (e.currentTarget) {
-      e.currentTarget.focus();
-    }
-  };
-
   useEffect(() => {
     if (listRef.current?.parentElement?.dataset.id === 'desktop') {
       setIsMobile(false);
@@ -94,7 +75,6 @@ function SearchList({ listRef }: TSearchListProps) {
       className={containerType}
       style={{ display: isListVisible }}
     >
-      {whileSearching()}
       {filteredList.map((item: IItem, idx: number) => {
         const key = `${item.sickCd}-${idx}`;
         return (
@@ -103,15 +83,12 @@ function SearchList({ listRef }: TSearchListProps) {
             role="menuitem"
             onClick={onClick}
             onKeyDown={onKeyDown}
-            onMouseEnter={onMouseEnter}
             tabIndex={0}
             data-name={item.sickNm}
             className={styles.item}
           >
             <MagnifierIcon />
-            <span className={styles.name}>
-              <Match sickNm={item.sickNm} />
-            </span>
+            <Match sickNm={item.sickNm} />
           </li>
         );
       })}
@@ -119,4 +96,4 @@ function SearchList({ listRef }: TSearchListProps) {
   );
 }
 
-export default SearchList;
+export default FuzzySearchList;

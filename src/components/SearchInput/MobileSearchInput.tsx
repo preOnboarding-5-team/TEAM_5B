@@ -41,16 +41,16 @@ function MobileSearchInput() {
 
   return (
     <>
-      <div
-        role="button"
+      <button
+        type="button"
         tabIndex={0}
         className={styles['mobile-search-input']}
         onClick={toggleSearchInput}
       >
-        <span>{placeholder}</span>
+        {placeholder}
         <MagnifierIcon />
-      </div>
-      <div
+      </button>
+      <section
         data-id="mobile"
         className={styles['mobile-container']}
         style={isSearching ? { display: 'flex' } : { display: 'none' }}
@@ -67,7 +67,7 @@ function MobileSearchInput() {
           <MagnifierIcon />
         </div>
         <SearchList listRef={listRef} />
-      </div>
+      </section>
     </>
   );
 }

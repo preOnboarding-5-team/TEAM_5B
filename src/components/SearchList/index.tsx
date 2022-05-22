@@ -102,9 +102,7 @@ function SearchList({ listRef }: TSearchListProps) {
             className={styles.item}
           >
             <MagnifierIcon />
-            <span className={styles.name}>
-              <Match sickNm={item.sickNm} />
-            </span>
+            <Match sickNm={item.sickNm} />
           </li>
         );
       })}
