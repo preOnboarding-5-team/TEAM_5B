@@ -1,6 +1,6 @@
 # 휴먼스케이프 프론트엔드 팀 과제 - Team 5B
 
-사용 기술: Create React App, TypeScript, Sass(SCSS), React Router, React Query, React Redux, Redux Toolkit, Redux Logger, Axios, lodash, ESLint, Stylelint, Prettier
+사용 기술: Create React App, TypeScript, Sass(SCSS), React Router, React Query, React Redux, Redux Toolkit, Redux Logger, Axios, lodash, classnames, ESLint, Stylelint, Prettier
 
 팀 구성원: 문재석, 이선아, 장재혁, 정성두
 
@@ -8,7 +8,7 @@
 
 ### 1) Netlify로 배포된 페이지
 
-🔗 [링크]()
+🔗 [링크](https://coruscating-jalebi-c67d21.netlify.app/)
 
 전반적인 기능을 모두 사용해볼 수 있도록 Netlify로 배포하였습니다.
 
@@ -33,55 +33,56 @@ npm start
 ├─ .prettierrc.yml
 ├─ .stylelintrc.json
 ├─ README.md
+├─ netlify.toml
 ├─ package-lock.json
 ├─ package.json
-├─ public
+├─ 📁public
 │  ├─ favicon.ico
 │  ├─ index.html
 │  ├─ logo192.png
 │  ├─ logo512.png
 │  ├─ manifest.json
 │  └─ robots.txt
-├─ src
-│  ├─ assets
-│  │  ├─ images
+├─ 📁src
+│  ├─ 📁assets
+│  │  ├─ 📁images
 │  │  │  └─ kids-logo.webp
 │  │  ├─ index.ts
-│  │  └─ svgs
+│  │  └─ 📁svgs
 │  │     ├─ hamburger-button-icon.svg
 │  │     ├─ left-arrow-icon.svg
 │  │     ├─ magnifier-icon.svg
 │  │     ├─ main-logo.svg
 │  │     ├─ subscription-image-sm.svg
 │  │     └─ subscription-image.svg
-│  ├─ components
-│  │  ├─ Footer
+│  ├─ 📁components
+│  │  ├─ 📁Footer
 │  │  │  ├─ footer.module.scss
 │  │  │  └─ index.tsx
-│  │  ├─ FuzzySearchInput
+│  │  ├─ 📁FuzzySearchInput
 │  │  │  ├─ DesktopSearchInput.tsx
 │  │  │  ├─ MobileSearchInput.tsx
 │  │  │  ├─ fuzzy-search-input.module.scss
 │  │  │  └─ index.tsx
-│  │  ├─ FuzzySearchList
+│  │  ├─ 📁FuzzySearchList
 │  │  │  ├─ Match.tsx
 │  │  │  ├─ fuzzy-search-list.module.scss
 │  │  │  └─ index.tsx
-│  │  ├─ Header
+│  │  ├─ 📁Header
 │  │  │  ├─ DesktopNav.tsx
 │  │  │  ├─ MobileNav.tsx
 │  │  │  ├─ header.module.scss
 │  │  │  └─ index.tsx
-│  │  ├─ SearchInput
+│  │  ├─ 📁SearchInput
 │  │  │  ├─ DesktopSearchInput.tsx
 │  │  │  ├─ MobileSearchInput.tsx
 │  │  │  ├─ index.tsx
 │  │  │  └─ search-input.module.scss
-│  │  └─ SearchList
+│  │  └─ 📁SearchList
 │  │     ├─ Match.tsx
 │  │     ├─ index.tsx
 │  │     └─ search-list.module.scss
-│  ├─ hooks
+│  ├─ 📁hooks
 │  │  ├─ index.tsx
 │  │  ├─ useAppDispatch.tsx
 │  │  ├─ useAppSelector.tsx
@@ -90,11 +91,11 @@ npm start
 │  │  └─ useShouldFetch.tsx
 │  ├─ index.tsx
 │  ├─ logo.svg
-│  ├─ pages
-│  │  ├─ FuzzyString
+│  ├─ 📁pages
+│  │  ├─ 📁FuzzyString
 │  │  │  ├─ fuzzy-string.module.scss
 │  │  │  └─ index.tsx
-│  │  ├─ Main
+│  │  ├─ 📁Main
 │  │  │  ├─ index.tsx
 │  │  │  └─ main.module.scss
 │  │  ├─ app.module.scss
@@ -102,14 +103,14 @@ npm start
 │  ├─ react-app-env.d.ts
 │  ├─ reportWebVitals.ts
 │  ├─ setupTests.ts
-│  ├─ store
+│  ├─ 📁store
 │  │  ├─ fetchCount.ts
 │  │  ├─ filteredList.ts
 │  │  ├─ index.ts
 │  │  ├─ localList.ts
 │  │  ├─ queryList.ts
 │  │  └─ searchString.ts
-│  ├─ styles
+│  ├─ 📁styles
 │  │  ├─ base
 │  │  │  ├─ _fonts.scss
 │  │  │  ├─ _more.scss
@@ -119,9 +120,9 @@ npm start
 │  │  ├─ index.scss
 │  │  └─ mixins
 │  │     └─ _responsive.scss
-│  ├─ types
+│  ├─ 📁types
 │  │  └─ search.d.ts
-│  └─ utils
+│  └─ 📁utils
 │     ├─ data
 │     │  └─ data.js
 │     ├─ fetcher.ts
@@ -305,4 +306,116 @@ API 통신을 통한 추천 검색어 기능을 담고 있는 페이지입니다
 글자 한번 한번을 입력할 때, 혹은 큰 범위 검색 후 작은 범위를 검색하더라도 통신이 이루어지는 것은 굉장한 비효율이라고 생각했습니다. 따라서 API 통신 횟수를 줄이기 위해 전역 상태 `localList`를 활용하였습니다. 만약 사용자가 '가'라고 검색을 했고, 요청에 따른 결과가 총 40개가 왔다면 이후 사용자가 '가나'라고 검색을 하면 결과 40개 안에는 '가나'에 해당하는 통신 결과값이 무조건 들어있습니다. 즉, 사용자가 만약 '가'라고 검색한 적이 있으면 '가'로 시작하는 모든 API 통신은 불필요하다고 볼 수 있습니다. 이 논리에 따라 사용자가 검색하는 검색어들을 전역 상태에 저장해 놓고, 만약 사용자가 그 검색어를 다시 검색하거나 그 검색어를 기준으로 하여 더 좁은 범위의 검색어를 입력하였을 때는 API통신을 하지 않고 localList로부터 filter를 하여 출력하는 방식을 택하였습니다.  
 정리하자면 사용자가 '가나다라'를 검색하게 되면 이를 '가', '나', '다', '라', '가나', '가나다', '가나다라'로 쪼개어 이 중 한 단어라도 검색한 적이 있으면 API 통신을 하지 않고 로컬에 있는 정보를 호출하는 방식을 적용하였습니다.
 
-## 5. 느낀 점
+## 6. 어려웠던 점, 배운 점, 그리고 느낀 점
+
+### 문재석
+
+#### useQuery
+
+useQuery와 유사한 다른 라이브러리들도 많이 써봤지만 기능적으로 다양하기도 하고 문서 자체가 친절하지 않다 보니 사용하는데에 꽤 애를 먹었다. 하지만 그런만큼 공식 문서를 오래 읽게 되고, 오래 읽고 있자니 그 많은 문서도 한번 쯤은 다 들여다보게 되었기에 다음에 이 라이브러리를 쓰게 된다면 상황에 맞춰 필요한 기능을 가져다가 무리 없이 사용할 수 있을 것 같다.
+
+#### Redux Toolkit
+
+공식 문서에선 Toolkit이 불편한 Redux를 개선하기 위해서 나왔고 굉장히 편리하다고는 하지만 Recoil이나 Jotai와 같은 라이브러리에 비하면 한 없이 복잡하다고 느꼈다. 물론 복잡한 만큼 상황에 따라 대처하기도 좋고 범용성이 넓다고도 생각할 수 있지만 규모가 크지 않고 복잡한 전역 상태 관리와 미들웨어 활용이 필요한 환경이 아니라면 큰 이점을 갖고 있다고 느끼진 못했다. 이 말인 즉슨 전역 상태 관리 라이브러리도 상황과 규모에 맞게 사용하여야 한다는 뜻이고, 그러기 위해선 Recoil이든 Jotai든 Redux든 뭐든 전부 다 능숙하게 다룰 수 있는 상태가 되는 것이 중요할 것 같다.
+
+#### 어려웠던 점과 느낀점
+
+협업을 많이 해보지 않았기 때문에 협업이라는 것 자체가 어려웠다. 사람들과 코드 컨벤션을 통일 하는 것도 쉽지 않았고, 초기 템플릿을 잡아 나가는 것부터 어려움을 느꼈다. 하지만 누구나 경험이 적으면 어렵다고 느끼는 것은 당연하다고 생각하기 때문에 이번 기회에 많은 것을 배워가면 되겠다고 생각했다.  
+추가로, 내가 혼자서 코드를 짜는 것도 굉장히 어렵지만 다른 사람이 짠 코드를 이해하고 리팩토링하는 것 또한 쉬운 일이 아니라는 것을 느꼈다. 그 사람이 의도한 로직과 흐름을 이해하고 코드를 이해해야만 리팩토링을 할 수 있고 의견도 제시할 수 있기 때문이다. 밤을 새면서 공식 문서를 들여다 보고 코드를 들여다 보며 수정을 거듭했지만 더 잘할 수 있었을텐데라는 아쉬움이 남는 것은 어쩔 수 없다. 협업을 겪으면서 경험치를 계속 쌓는 것이 답이라고 생각이 드는가 하면, 한편으로는 내 자신이 엄청나게 성장하는 것이 협업에 도움이 되는 것일 수도 있겠다는 생각도 든다.
+
+### 이선아
+
+#### data fetching
+
+API 호출 최적화를 위해 두 가지 방법 사용했습니다.
+
+1. React Query
+   과제에서 주어진 데이터는 정적으로 변하지 않는 특성을 갖고, 또한 같은 검색어를 입력했을 때 refetching이 발생하는 것을 막기 위해서 staleTime과 cacheTime 둘 다 Infinity를 줌으로써 데이터를 항상 fresh하게 유지하고, 언제든 이전에 검색한 결과를 재입력 하는 경우 refetching 이 일어나지 않도록 구현했습니다. axios 리턴값 타입 지정하는 부분에서 에러가 계속해서 발생하여 타입스크립트에 관해 공부가 더 필요하다고 느꼈습니다.
+
+2. debounce
+   사용자가 검색어를 입력할 때마다 api 호출을 하면 서버에 부담이 되기 때문에 이를 줄이기 위해서 debounce를 사용했습니다. 사용자의 검색어가 변할 때마다 debounce hook 내부의 useEffect가 호출되고, 이때 지정한 delay가 지나야만 debounceValue가 바뀌도록 구현했습니다.
+
+#### 상태관리
+
+이전에 상태관리를 recoil과 redux를 사용해 보았는데 이번에는 redux-toolkit을 사용하게 되었습니다.
+recoil보다는 복잡하지만 redux보다는 훨씬 간편하게 작성할 수 있었습니다.
+redux의 경우 action, actionTypes, reducer, selector 등 다양한 파일이 생기는 반면 redux-toolkit은 createSlice를 이용하여
+한 파일에 간단하게 요약해서 적을 수 있어 간편했습니다. 데이터의 변화와 action의 발생 여부를 쉽게 파악하기 위해서 redux-logger라는 미들웨어를 사용하였습니다.
+toolkit을 처음 사용해 보았고, 한 파일에 action과 reducer가 들어가다 보니 한눈에 파악이 어렵다고 느껴지기도 했습니다.
+
+#### CORS와 Proxy
+
+사실 이전에 cors를 해결할 때는 백엔드 담당 분께 서버에서 Access-Control-Allow-Origin를 설정해 달라고 요청하는 방법으로 해결해 왔었습니다.
+하지만 이번 과제는 공공 api로 프론트 쪽에서 해결을 해야 했었고, 이를 위해 heroku에 서버를 배포하기, http-proxy-middleware를 이용하기 등 다양한 방법을 시도해 보았지만 하루가 지나도 해결되지 않아 꽤 애를 먹었습니다. 그러던 중 Netlify를 통해 netlify.toml 파일 설정으로 해결한 방법을 공유해 주셔서 이 방법으로 해결하게 되었습니다.
+
+#### 느낀점
+
+기업 과제 중 첫 번째 팀 과제를 하면서 팀원 분들과 서로 모르는 점을 물어보고 찾아가는 과정에서 굉장히 뿌듯함을 느꼈습니다.
+팀원 분들과 소통이 잘 되어서 서로 질문하고 맞춰가는데 어려움이 없었습니다. 자신이 맡은 부분의 코드를 작성하고, pr을 올려 코드 리뷰를 통해 리팩토링을 거치며 좀 더 효율적으로 코드를 짜는 방식도 배우게 되었습니다.
+
+### 장재혁
+
+#### Fuzzy String Matching
+
+Fuzzy String Matching의 개념 자체를 처음 들어보는 것이라 이를 이해하는 것에 시간이 오래걸렸습니다.
+
+한국어의 경우 초성, 중성, 종성이 합쳐져 하나의 온전한 문자를 완성하는 특징이 있어 이와 다른 언어에서 사용되는 방식을 그대로 적용할 수 없어 관련 자료를 찾아 다음 링크를 참고했습니다.
+
+[https://taegon.kim/archives/9919](https://taegon.kim/archives/9919)
+
+자바스크립트에서 온전한 한글 문자의 코드는 다음과 같이 정해집니다.
+
+> _( 자음번호 _ 588 + 모음번호 _ 28 + 종성번호 ) + 44032_
+
+여기에 종성에만 사용가능한 ‘ㄳ’ 같은 경우를 고려하고 정규식에 사용되는 특수문자 처리를 위해 Lodash의 escapeRegExp() Method를 사용해 정규식을 생성하여 fuzzy string을 구현하였습니다.  
+그리고 split() 메소드와 mark 태그를 이용해 사용자가 입력한 질환명과 일치하는 부분을 볼드처리하였고, 입력된 검색어에 trim()과 replaceAll() 을 사용해 공백을 제거하여 띄어쓰기가 일치하지 않을 경우에도 검색 할 수 있게 구현하였습니다.
+
+제공된 API 에서는 완성된 글자만을 이용해 검색하기 때문에 오랜 고민 끝에 이를 적용하기 어렵다고 판단해 json파일을 이용해 적용하고 구별해두었습니다.
+
+#### Redux-Toolkit
+
+상태 관리 라이브러리로 redux-toolkit을 사용하였습니다.
+
+createSlice를 사용해 action과 reducer 비교적 간단하게 생성할 수 있었습니다.
+state에 어떤 것을 저장할 것인지 고민을 많이 했고 우선은 검색어와 필터링 된 검색 결과를 searchString과 filteredList에 저장하여 컴포넌트에서 공유할 수 있게 하였습니다.
+Typescript를 사용하여 state와 action의 타입을 지정하였는데 이에 맞추어 사용하는 것이 까다로웠습니다.
+
+#### Proxy와 Netlify 배포
+
+과제가 어느정도 구현되고 netlify를 통해 배포를 시도하며 많은 시행착오를 겪었습니다.
+
+로컬 작업 시에도 cors에러로 인한 proxy 설정에 우여곡절이 있었으며, package.json 파일에 다음을 추가하여 해결하였습니다.
+
+```tsx
+"proxy": "http://apis.data.go.kr/"
+```
+
+위 방법은 개발 모드에서만 적용되기 때문에 배포시에는 netlify.toml 파일을 생성하여 redirects를 설정해두었습니다.
+
+그런데 api 호출 response가 You need to enable JavaScript to run this app.로 나오는 현상이 있어 오랜 고민을 하였고 팀원의 도움으로 public 폴더의 \_redirects가 원인임을 알게 되었습니다.
+
+#### 느낀 점
+
+팀원분들에 비해 실력과 체력이 많이 부족함을 느꼈고 따라갈 수 있도록 많은 노력이 필요하다는 것을 실감하였습니다. 감사합니다.
+
+### 정성두
+
+#### keyboardNavigation
+
+이번 프로젝트에서 제가 맡은 기능은 검색 결과를 키보드로 포커스를 이동하는 부분이었습니다. 처음에 useState를 이용하여 키보드를 입력할 때마다 state의 값이 증가하거나 감소하도록 만든 뒤 그 값과 결과를 출력하는 li 태그의 idx를 비교하여 같으면 focus CSS를 추가하도록 구현하였습니다. 이 과정 중에는 어려운 부분은 없었으나 useState의 상태를 관리하여 여러 컴포넌트에 props를 통해서 전달하니 작은 프로젝트임에도 props가 복잡해지는 걸 느껴 키보드 입력에 따라 변화하는 state는 Redux를 통해 관리하도록 만들었습니다.
+
+Redux-Tookit으로 변경하는 과정에서 Redux를 이용하는 데 익숙하지 않아서 어려움을 겪었습니다. 하지만 useState처럼 props를 통해 전달하는 방식이 아닌 필요한 파일에서 가져와서 쓰는 방식이라 만들고 나서 사용할 때는 부담 없이 사용할 수 있었습니다.
+
+이렇게 구현했었지만 한번 포커스가 이동하게 될 때마다 전역 상태 호출이 되어 그에따라 렌더가 자주 일어나는 상황이 발생하여 useRef를 이용하여 state를 따로 사용하지 않는 방법으로 리팩토링 되었습니다.
+
+#### cors와 proxy 설정, 배포
+
+공공데이터포털의 Api를 사용하면서 cors 에러가 발생하여 처음에 데이터를 가져오는 데에도 많은 시간을 사용하였습니다. 이를 해결하기 위해서는 node.js를 통해서 직접 서버를 구현하는 방법과 proxy서버를 이용하는 방법이 있었습니다. 서버를 직접 구현하는 방법보다는 proxy를 이용한 방법을 사용해 보았고 처음에 http-proxy-middleware를 이용하여 설정 파일을 만들어준 뒤에 데이터를 받아오는 데 성공하였습니다.
+
+이 방법은 netlify에서 배포할 때 proxy를 위해 따로 설정 파일을 만들어서 사용하는 방식과 매우 유사했고 배포를 다른 프로젝트 파일을 이용하여 보았을 때는 성공적으로 되었습니다.
+
+하지만 과제 프로젝트의 리퍼지토리를 배포하려고 했을 때 서버 요청은 200으로 성공으로 뜨지만, response의 내용이 public의 index.html 파일의 내용이 나오는 것까지 확인하였습니다. 이에 대한 문제의 해결책으로는 같은 public 파일에 \_redirects라는 파일 안의 설정으로 인한 문제로 삭제하여 해결되었습니다.
+
+#### 느낀 점
+
+새로운 내용들을 이용하는 데까지 너무 많은 시간이 드는 것 같고, 사용한 거지 이해한 부분은 아직 적기 때문에 팀원들을 따라가기에도 벅찼던 것 같습니다. 더 많은 코드를 보고 배워야 할 것 같습니다.
